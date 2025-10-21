@@ -179,3 +179,24 @@ uploadBtn.addEventListener("change", async (e) => {
     await generateHighlights(file.name);
   }
 });
+// Create preview video element
+const preview = document.createElement("video");
+preview.src = url;
+preview.controls = true;
+preview.width = 300;
+preview.style.margin = "10px";
+
+// Add download button
+const downloadBtn = document.createElement("button");
+downloadBtn.textContent = `Download Highlight ${i + 1}`;
+downloadBtn.style.margin = "5px";
+downloadBtn.onclick = () => {
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = outFile;
+  a.click();
+};
+
+// Append to preview and download section
+document.body.appendChild(preview);
+document.getElementById("downloadSection").appendChild(downloadBtn);
