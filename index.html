@@ -1,69 +1,62 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ReelRocket — Auto Clip Generator</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReelRocket</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; padding:0; }
+    button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+    video { display: block; margin: 10px auto; }
+    footer { margin-top: 20px; color: gray; font-size: 14px; text-align:center; }
+
+    /* Background Image Layer */
+    .bg-image {
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: url('your-picture.jpg') no-repeat center center;
+      background-size: cover;
+      opacity:0.15;
+      z-index:0;
+    }
+
+    /* Content Layer */
+    .content {
+      position: relative;
+      z-index:1;
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <div class="logo">🚀</div>
-      <div>
-        <h1>ReelRocket</h1>
-        <p class="tag">Launch your clips to the stars</p>
-      </div>
-    </div>
-  </header>
 
-  <main class="container">
-    <section class="card upload-card">
-      <h2>Upload your video</h2>
-      <p>Drag & drop or click to choose a video (mp4 / webm).</p>
+  <!-- Background Image -->
+  <div class="bg-image"></div>
 
-      <label class="file-drop" id="dropZone">
-        <input type="file" id="videoInput" accept="video/*" />
-        <div class="drop-inner">
-          <strong>Click or drop video here</strong>
-          <span class="small">We will auto-generate short clips (demo mode)</span>
-        </div>
-      </label>
+  <!-- Page Content -->
+  <div class="content">
+    <h1>ReelRocket Demo</h1>
+    <video id="player" controls width="500"></video>
+    <br>
+    <button id="uploadBtn">Upload Video</button>
 
-      <div class="controls">
-        <button id="analyzeBtn" class="primary" disabled>Find Highlights</button>
-        <button id="clearBtn" class="muted" disabled>Clear</button>
-      </div>
-    </section>
+    <!-- Download Section -->
+    <h3>Download Highlights</h3>
+    <div id="downloadSection"></div>
+  </div>
 
-    <section class="card preview-card" id="previewSection" hidden>
-      <h2>Preview & Clips</h2>
-      <video id="player" controls></video>
+  <!-- FFmpeg wasm library -->
+  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
 
-      <div id="clipsArea" class="clips-area">
-        <!-- Generated clips will appear here -->
-      </div>
-    </section>
-
-    <section class="card info-card">
-      <h3>How this works (demo)</h3>
-      <ol>
-        <li>Upload a video.</li>
-        <li>Click <em>Find Highlights</em> — the app will propose 3 sample short-clip ranges.</li>
-        <li>Select a clip and click export (future: removes watermark with Premium).</li>
-      </ol>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <small>ReelRocket • Demo v0.1 — Built for Un See Me</small>
-  </footer>
-  
-<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
-  
+  <!-- Custom JS -->
   <script src="script.js"></script>
 
-  <h3>Download Highlights</h3>
-<div id="downloadSection"></div>
+  <!-- Footer -->
+  <footer>
+    Built for Faizan Seemi
+  </footer>
+
 </body>
 </html>
