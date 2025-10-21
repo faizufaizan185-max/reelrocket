@@ -1,0 +1,72 @@
+:root{
+  --bg:#0f0f12;
+  --card:#0b0b0d;
+  --muted:#9aa0a6;
+  --accent:#7c3aed;
+  --accent2:#ec4899;
+  --white:#f8f9fb;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:linear-gradient(180deg,#060606 0%, #0b0b0d 100%);
+  color:var(--white);
+  min-height:100vh;
+}
+.topbar{
+  padding:18px 24px;
+  border-bottom:1px solid rgba(255,255,255,0.02);
+  display:flex;
+  align-items:center;
+}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{font-size:28px}
+.brand h1{margin:0;font-size:20px}
+.tag{margin:0;font-size:12px;color:var(--muted)}
+
+.container{
+  max-width:1000px;
+  margin:28px auto;
+  padding:0 18px;
+  display:grid;
+  grid-template-columns:1fr 420px;
+  gap:18px;
+}
+
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  padding:18px;
+  border-radius:14px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.6);
+}
+
+.upload-card .file-drop{
+  display:block;
+  border:2px dashed rgba(255,255,255,0.06);
+  padding:28px;
+  border-radius:10px;
+  text-align:center;
+  cursor:pointer;
+  margin-top:12px;
+  background:rgba(255,255,255,0.01);
+}
+.file-drop input{display:none}
+.drop-inner .small{display:block;color:var(--muted);margin-top:8px;font-size:13px}
+
+.controls{margin-top:12px;display:flex;gap:8px}
+button{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:600}
+.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:white}
+.muted{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+
+.preview-card video{width:100%;border-radius:8px;display:block;margin-top:12px}
+.clips-area{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.clip{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,0.02);padding:8px;border-radius:8px;
+}
+.clip button{padding:8px 10px;border-radius:8px}
+.footer{max-width:1000px;margin:20px auto;color:var(--muted);text-align:center;font-size:13px}
+@media(max-width:880px){
+  .container{grid-template-columns:1fr; padding-bottom:60px}
+                    }
