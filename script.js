@@ -1,3 +1,15 @@
+// FFmpeg import
+const { createFFmpeg, fetchFile } = FFmpeg;
+const ffmpeg = createFFmpeg({ log: true });
+
+// Load FFmpeg
+async function loadFFmpeg() {
+  if (!ffmpeg.isLoaded()) {
+    await ffmpeg.load();
+    console.log("FFmpeg ready!");
+  }
+}
+loadFFmpeg();
 // Simple front-end demo logic
 const videoInput = document.getElementById('videoInput');
 const dropZone = document.getElementById('dropZone');
@@ -114,3 +126,56 @@ window.previewRange = (s,e)=>{
 window.downloadRange = (s,e)=>{
   alert('Export will be added in next update — for now this is a demo UI. I will add client-side clip extraction (ffmpeg.wasm) in the next step.');
 };
+
+// ===============================
+// Automatic Highlights Generator
+// ===============================
+
+async function generateHighlights(fileName) {
+  console.log("Generating highlights...");
+
+  // 3 sample highlight segments (for demo, 5 seconds each)
+  const highlights = [
+    { start: 0, duration: 5 },
+    { start: 10, duration: 5 },
+    { start: 20, duration: 5 }
+  ];
+
+  for (let i = 0; i < highlights.length; i++) {
+    const clip = highlights[i];
+    const outFile = `highlight_${i + 1}.mp4`;
+
+    await ffmpeg.run(
+      "-i", fileName,
+      "-ss", clip.start.toString(),
+      "-t", clip.duration.toString(),
+      "-c", "copy",
+      outFile
+    );
+
+    // Get output file and create URL for preview
+    const data = ffmpeg.FS("readFile", outFile);
+    const url = URL.createObjectURL(new Blob([data.buffer], { type: "video/mp4" }));
+
+    // Create preview video element
+    const preview = document.createElement("video");
+    preview.src = url;
+    preview.controls = true;
+    preview.width = 300;
+    preview.style.margin = "10px";
+    document.body.appendChild(preview);
+  }
+
+  console.log("Highlights generated!");
+}
+
+// Connect to upload button inside onchange
+uploadBtn.addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    await loadFFmpeg();
+    const data = await fetchFile(file);
+    ffmpeg.FS("writeFile", file.name, data);
+    await generateHighlights(file.name);
+  }
+});
