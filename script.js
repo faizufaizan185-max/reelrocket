@@ -1,20 +1,12 @@
-// ===============================
-// FFmpeg Initialize
-// ===============================
 const { createFFmpeg, fetchFile } = FFmpeg;
 const ffmpeg = createFFmpeg({ log: true });
 
 async function loadFFmpeg() {
-  if (!ffmpeg.isLoaded()) {
-    await ffmpeg.load();
-    console.log("FFmpeg ready!");
-  }
+  if (!ffmpeg.isLoaded()) await ffmpeg.load();
+  console.log("FFmpeg ready!");
 }
 loadFFmpeg();
 
-// ===============================
-// Upload Video Button Logic
-// ===============================
 const uploadBtn = document.getElementById("uploadBtn");
 const player = document.getElementById("player");
 
@@ -30,32 +22,27 @@ uploadBtn.addEventListener("click", () => {
     player.src = URL.createObjectURL(file);
 
     await loadFFmpeg();
-
     const data = await fetchFile(file);
     ffmpeg.FS("writeFile", file.name, data);
 
-    console.log("Video ready for processing!");
+    console.log("Video ready!");
     await generateHighlights(file.name);
   };
   input.click();
 });
 
-// ===============================
-// Generate 3 Automatic Highlights
-// ===============================
 async function generateHighlights(fileName) {
   const highlights = [
-    { start: 0, duration: 5 },
-    { start: 10, duration: 5 },
-    { start: 20, duration: 5 }
+    { start:0, duration:5 },
+    { start:10, duration:5 },
+    { start:20, duration:5 }
   ];
 
-  // Clear previous previews & download buttons
   document.getElementById("downloadSection").innerHTML = "";
 
-  for (let i = 0; i < highlights.length; i++) {
+  for(let i=0;i<highlights.length;i++){
     const clip = highlights[i];
-    const outFile = `highlight_${i + 1}.mp4`;
+    const outFile = `highlight_${i+1}.mp4`;
 
     await ffmpeg.run(
       "-i", fileName,
@@ -68,7 +55,7 @@ async function generateHighlights(fileName) {
     const data = ffmpeg.FS("readFile", outFile);
     const url = URL.createObjectURL(new Blob([data.buffer], { type: "video/mp4" }));
 
-    // Preview video
+    // Preview
     const preview = document.createElement("video");
     preview.src = url;
     preview.controls = true;
@@ -76,10 +63,9 @@ async function generateHighlights(fileName) {
     preview.style.margin = "10px";
     document.body.appendChild(preview);
 
-    // Download button
+    // Download
     const downloadBtn = document.createElement("button");
-    downloadBtn.textContent = `Download Highlight ${i + 1}`;
-    downloadBtn.style.margin = "5px";
+    downloadBtn.textContent = `Download Highlight ${i+1}`;
     downloadBtn.onclick = () => {
       const a = document.createElement("a");
       a.href = url;
@@ -90,4 +76,4 @@ async function generateHighlights(fileName) {
   }
 
   console.log("Highlights generated!");
-}
+  }
